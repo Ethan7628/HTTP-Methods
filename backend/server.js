@@ -19,8 +19,8 @@ app.get('/health', (req, res) => {
 
 // In-memory data store
 let users = [
-  { id: 1, name: 'Kusasirakwe Ethan', email: 'kusasirakweethan@gmail.com' },
-  { id: 2, name: 'Nanvule Faith', email: 'nanvulefaith@gmail.com' }
+  { id: 1, name: 'John Doe', email: 'john@example.com' },
+  { id: 2, name: 'Jane Smith', email: 'jane@example.com' }
 ];
 
 let posts = [
@@ -35,13 +35,16 @@ const generateId = (items) => {
 };
 
 // Routes for users
+
+// GET /api/users - Get all users
 app.get('/api/users', (req, res) => {
   res.json(users);
 });
 
+// GET /api/users/:id - Get a specific user
 app.get('/api/users/:id', (req, res) => {
-  const { id } = req.params;
-  const user = users.find(u => u.id === parseInt(id));
+  const id = parseInt(req.params.id);
+  const user = users.find(u => u.id === id);
   
   if (!user) {
     return res.status(404).json({ error: 'User not found' });
@@ -50,6 +53,7 @@ app.get('/api/users/:id', (req, res) => {
   res.json(user);
 });
 
+// POST /api/users - Create a new user
 app.post('/api/users', (req, res) => {
   const { name, email } = req.body;
   
@@ -67,11 +71,12 @@ app.post('/api/users', (req, res) => {
   res.status(201).json(newUser);
 });
 
+// PUT /api/users/:id - Fully update a user
 app.put('/api/users/:id', (req, res) => {
-  const { id } = req.params;
+  const id = parseInt(req.params.id);
   const { name, email } = req.body;
   
-  const userIndex = users.findIndex(u => u.id === parseInt(id));
+  const userIndex = users.findIndex(u => u.id === id);
   
   if (userIndex === -1) {
     return res.status(404).json({ error: 'User not found' });
@@ -81,15 +86,16 @@ app.put('/api/users/:id', (req, res) => {
     return res.status(400).json({ error: 'Name and email are required' });
   }
   
-  users[userIndex] = { id: parseInt(id), name, email };
+  users[userIndex] = { id: id, name, email };
   res.json(users[userIndex]);
 });
 
+// PATCH /api/users/:id - Partially update a user
 app.patch('/api/users/:id', (req, res) => {
-  const { id } = req.params;
+  const id = parseInt(req.params.id);
   const updates = req.body;
   
-  const userIndex = users.findIndex(u => u.id === parseInt(id));
+  const userIndex = users.findIndex(u => u.id === id);
   
   if (userIndex === -1) {
     return res.status(404).json({ error: 'User not found' });
@@ -99,10 +105,11 @@ app.patch('/api/users/:id', (req, res) => {
   res.json(users[userIndex]);
 });
 
+// DELETE /api/users/:id - Delete a user
 app.delete('/api/users/:id', (req, res) => {
-  const { id } = req.params;
+  const id = parseInt(req.params.id);
   
-  const userIndex = users.findIndex(u => u.id === parseInt(id));
+  const userIndex = users.findIndex(u => u.id === id);
   
   if (userIndex === -1) {
     return res.status(404).json({ error: 'User not found' });
@@ -113,13 +120,16 @@ app.delete('/api/users/:id', (req, res) => {
 });
 
 // Routes for posts
+
+// GET /api/posts - Get all posts
 app.get('/api/posts', (req, res) => {
   res.json(posts);
 });
 
+// GET /api/posts/:id - Get a specific post
 app.get('/api/posts/:id', (req, res) => {
-  const { id } = req.params;
-  const post = posts.find(p => p.id === parseInt(id));
+  const id = parseInt(req.params.id);
+  const post = posts.find(p => p.id === id);
   
   if (!post) {
     return res.status(404).json({ error: 'Post not found' });
@@ -128,6 +138,7 @@ app.get('/api/posts/:id', (req, res) => {
   res.json(post);
 });
 
+// POST /api/posts - Create a new post
 app.post('/api/posts', (req, res) => {
   const { title, body, userId } = req.body;
   
@@ -146,11 +157,12 @@ app.post('/api/posts', (req, res) => {
   res.status(201).json(newPost);
 });
 
+// PUT /api/posts/:id - Fully update a post
 app.put('/api/posts/:id', (req, res) => {
-  const { id } = req.params;
+  const id = parseInt(req.params.id);
   const { title, body, userId } = req.body;
   
-  const postIndex = posts.findIndex(p => p.id === parseInt(id));
+  const postIndex = posts.findIndex(p => p.id === id);
   
   if (postIndex === -1) {
     return res.status(404).json({ error: 'Post not found' });
@@ -161,7 +173,7 @@ app.put('/api/posts/:id', (req, res) => {
   }
   
   posts[postIndex] = { 
-    id: parseInt(id), 
+    id: id, 
     title, 
     body, 
     userId: userId || posts[postIndex].userId 
@@ -169,11 +181,12 @@ app.put('/api/posts/:id', (req, res) => {
   res.json(posts[postIndex]);
 });
 
+// PATCH /api/posts/:id - Partially update a post
 app.patch('/api/posts/:id', (req, res) => {
-  const { id } = req.params;
+  const id = parseInt(req.params.id);
   const updates = req.body;
   
-  const postIndex = posts.findIndex(p => p.id === parseInt(id));
+  const postIndex = posts.findIndex(p => p.id === id);
   
   if (postIndex === -1) {
     return res.status(404).json({ error: 'Post not found' });
@@ -183,10 +196,11 @@ app.patch('/api/posts/:id', (req, res) => {
   res.json(posts[postIndex]);
 });
 
+// DELETE /api/posts/:id - Delete a post
 app.delete('/api/posts/:id', (req, res) => {
-  const { id } = req.params;
+  const id = parseInt(req.params.id);
   
-  const postIndex = posts.findIndex(p => p.id === parseInt(id));
+  const postIndex = posts.findIndex(p => p.id === id);
   
   if (postIndex === -1) {
     return res.status(404).json({ error: 'Post not found' });
