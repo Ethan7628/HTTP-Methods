@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTP Methods Demo - Complete Guide</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .method-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .method-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .method-tag {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            margin-right: 10px;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .get {
+            background-color: #10b981;
+        }
+
+        .post {
+            background-color: #3b82f6;
+        }
+
+        .put {
+            background-color: #f59e0b;
+        }
+
+        .patch {
+            background-color: #8b5cf6;
+        }
+
+        .delete {
+            background-color: #ef4444;
+        }
+
+        .method-title {
+            font-size: 1.4rem;
+            color: #2d3748;
+        }
+
+        .method-description {
+            margin-bottom: 15px;
+            color: #4a5568;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cbd5e0;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .btn-get {
+            background-color: #10b981;
+            color: white;
+        }
+
+        .btn-post {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        .btn-put {
+            background-color: #f59e0b;
+            color: white;
+        }
+
+        .btn-patch {
+            background-color: #8b5cf6;
+            color: white;
+        }
+
+        .btn-delete {
+            background-color: #ef4444;
+            color: white;
+        }
+
+        button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .response {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #f8fafc;
+            border-left: 4px solid #6e8efb;
+        }
+
+        .response-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #4a5568;
+        }
+
+        pre {
+            background-color: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 14px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .error {
+            background-color: #fed7d7;
+            border-left: 4px solid #f56565;
+            color: #c53030;
+        }
+
+        .success {
+            background-color: #c6f6d5;
+            border-left: 4px solid #48bb78;
+            color: #22543d;
+        }
+
+        .endpoint {
+            font-family: monospace;
+            background-color: #edf2f7;
+            padding: 3px 6px;
+            border-radius: 3px;
+        }
+
+        .explanation {
+            margin-top: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .explanation h2 {
+            margin-bottom: 15px;
+            color: #2d3748;
+        }
+
+        .explanation p {
+            margin-bottom: 15px;
+            color: #4a5568;
+        }
+
+        .code-block {
+            background-color: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 14px;
+        }
+
+        .http-methods {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .http-method {
+            padding: 8px 15px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .resource-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .resource-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            background-color: #e2e8f0;
+        }
+
+        .resource-btn.active {
+            background-color: #6e8efb;
+            color: white;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .server-status {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .status-online {
+            background-color: #c6f6d5;
+            color: #22543d;
+        }
+
+        .status-offline {
+            background-color: #fed7d7;
+            color: #c53030;
+        }
+
+        .info-box {
+            background-color: #e6f3ff;
+            border-left: 4px solid #3b82f6;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+
+        .info-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2d3748;
+        }
+
+        .flow-diagram {
+            background-color: #f8fafc;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border: 1px solid #e2e8f0;
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .flow-number {
+            background-color: #6e8efb;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+
+        .flow-text {
+            flex-grow: 1;
+        }
+
+        .method-details {
+            background-color: #f8fafc;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid #a777e3;
+        }
+
+        .method-details h3 {
+            margin-bottom: 10px;
+            color: #2d3748;
+        }
+
+        .method-details ul {
+            margin-left: 20px;
+            margin-bottom: 10px;
+        }
+
+        .method-details li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>HTTP Methods Demo</h1>
+        <p class="subtitle">Complete Frontend-Backend Communication Guide</p>
+    </header>
+
+    <div id="serverStatus" class="server-status status-offline">
+        Backend server: Checking...
+    </div>
+
+    <div class="resource-selector">
+        <button id="usersResourceBtn" class="resource-btn active" onclick="switchResource('users')">Users API</button>
+        <button id="postsResourceBtn" class="resource-btn" onclick="switchResource('posts')">Posts API</button>
+    </div>
+
+    <div class="http-methods">
+        <span class="http-method get">GET</span>
+        <span class="http-method post">POST</span>
+        <span class="http-method put">PUT</span>
+        <span class="http-method patch">PATCH</span>
+        <span class="http-method delete">DELETE</span>
+    </div>
+
+    <div class="container">
+        <!-- GET Method -->
+        <div class="method-section">
+            <div class="method-header">
+                <span class="method-tag get">GET</span>
+                <h2 class="method-title">Retrieve Resources</h2>
+            </div>
+            <p class="method-description">
+                GET requests are used to retrieve data from the server. They should not modify any data on the server.
+            </p>
+
+            <div class="method-details">
+                <h3>How GET Works:</h3>
+                <ul>
+                    <li>Client sends a request to the server asking for data</li>
+                    <li>Request is sent via URL parameters (no body)</li>
+                    <li>Server processes the request and returns the data</li>
+                    <li>GET requests are idempotent - multiple identical requests return the same result</li>
+                    <li>GET requests can be cached by browsers</li>
+                </ul>
+            </div>
+
+            <div class="form-group">
+                <label for="resourceId">Resource ID (optional):</label>
+                <input type="text" id="resourceId" placeholder="Enter resource ID">
+            </div>
+            <button class="btn-get" onclick="sendGetRequest()">Send GET Request</button>
+
+            <div class="flow-diagram">
+                <div class="flow-step">
+                    <div class="flow-number">1</div>
+                    <div class="flow-text">Browser sends HTTP GET request to server endpoint</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-number">2</div>
+                    <div class="flow-text">Server receives request and processes it</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-number">3</div>
+                    <div class="flow-text">Server retrieves data from database</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-number">4</div>
+                    <div class="flow-text">Server sends back JSON response with data</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-number">5</div>
+                    <div class="flow-text">Browser receives response and updates UI</div>
+                </div>
+            </div>
+
+            <div class="response" id="getResponse">
+                <div class="response-title">Response:</div>
+                <pre id="getResponseData">No data yet</pre>
+            </div>
+        </div>
+
+        <!-- POST Method -->
+        <div class="method-section">
+            <div class="method-header">
+                <span class="method-tag post">POST</span>
+                <h2 class="method-title">Create Resource</h2>
+            </div>
+            <p class="method-description">
+                POST requests are used to create new resources on the server.
+            </p>
+
+            <div class="method-details">
+                <h3>How POST Works:</h3>
+                <ul>
+                    <li>Client sends data to the server in the request body</li>
+                    <li>Data is typically formatted as JSON</li>
+                    <li>Server processes the data and creates a new resource</li>
+                    <li>Server returns the created resource with a new ID</li>
+                    <li>POST requests are not idempotent - multiple identical requests create multiple resources</li>
+                </ul>
+            </div>
+
+            <!-- Users Form -->
+            <div id="usersPostForm">
+                <div class="form-group">
+                    <label for="postName">Name:</label>
+                    <input type="text" id="postName" placeholder="Enter name">
+                </div>
+                <div class="form-group">
+                    <label for="postEmail">Email:</label>
+                    <input type="text" id="postEmail" placeholder="Enter email">
+                </div>
+            </div>
+
+            <!-- Posts Form -->
+            <div id="postsPostForm" class="hidden">
+                <div class="form-group">
+                    <label for="postTitle">Title:</label>
+                    <input type="text" id="postTitle" placeholder="Enter title">
+                </div>
+                <div class="form-group">
+                    <label for="postBody">Body:</label>
+                    <textarea id="postBody" placeholder="Enter content"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="postUserId">User ID:</label>
+                    <input type="number" id="postUserId" placeholder="Enter user ID" value="1">
+                </div>
+            </div>
+
+            <button class="btn-post" onclick="sendPostRequest()">Send POST Request</button>
+
+            <div class="flow-diagram">
+                <div class="flow-step">
+                    <div class="flow-number">1</div>
+                    <div class="flow-text">Browser sends HTTP POST request with JSON data in body</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-number">2</div>
+                    <div class="flow-text">Server receives request and validates data</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-number">3</div>
+                    <div class="flow-text">Server creates new resource in database</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-number">4</div>
+                    <div class="flow-text">Server sends back JSON response with created resource</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-number">5</div>
+                    <div class="flow-text">Browser receives response and updates UI</div>
+                </div>
+            </div>
+
+            <div class="response" id="postResponse">
+                <div class="response-title">Response:</div>
+                <pre id="postResponseData">No data yet</pre>
+            </div>
+        </div>
+
+        <!-- PUT Method -->
+        <div class="method-section">
+            <div class="method-header">
+                <span class="method-tag put">PUT</span>
+                <h2 class="method-title">Update Resource (Full)</h2>
+            </div>
+            <p class="method-description">
+                PUT requests are used to fully update existing resources on the server.
+            </p>
+
+            <div class="method-details">
+                <h3>How PUT Works:</h3>
+                <ul>
+                    <li>Client sends the complete updated resource to the server</li>
+                    <li>Server replaces the entire resource with the new data</li>
+                    <li>PUT requests are idempotent - multiple identical requests have the same effect as a single
+                        request</li>
+                    <li>If the resource doesn't exist, some APIs will create it</li>
+                </ul>
+            </div>
+
+            <div class="form-group">
+                <label for="putId">Resource ID:</label>
+                <input type="text" id="putId" placeholder="Enter resource ID">
+            </div>
+
+            <!-- Users Form -->
+            <div id="usersPutForm">
+                <div class="form-group">
+                    <label for="putName">Name:</label>
+                    <input type="text" id="putName" placeholder="Enter name">
+                </div>
+                <div class="form-group">
+                    <label for="putEmail">Email:</label>
+                    <input type="text" id="putEmail" placeholder="Enter email">
+                </div>
+            </div>
+
+            <!-- Posts Form -->
+            <div id="postsPutForm" class="hidden">
+                <div class="form-group">
+                    <label for="putTitle">Title:</label>
+                    <input type="text" id="putTitle" placeholder="Enter title">
+                </div>
+                <div class="form-group">
+                    <label for="putBody">Body:</label>
+                    <textarea id="putBody" placeholder="Enter content"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="putUserId">User ID:</label>
+                    <input type="number" id="putUserId" placeholder="Enter user ID" value="1">
+                </div>
+            </div>
+
+            <button class="btn-put" onclick="sendPutRequest()">Send PUT Request</button>
+
+            <div class="flow-diagram">
+                <div class="flow-step">
+                    <div class="flow-number">1</div>
+                    <div class="flow-text">Browser sends HTTP PUT request with complete updated resource</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-number">2</div>
+                    <div class="flow-text">Server receives request and validates data</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-number">3</div>
+                    <div class="flow-text">Server replaces the entire resource with the new data</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-number">4</div>
+                    <div class="flow-text">Server sends back JSON response with updated resource</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-number">5</div>
+                    <div class="flow-text">Browser receives response and updates UI</div>
+                </div>
+            </div>
+
+            <div class="response" id="putResponse">
+                <div class="response-title">Response:</div>
+                <pre id="putResponseData">No data yet</pre>
+            </div>
+        </div>
+
+        <!-- PATCH Method -->
+        <div class="method-section">
+            <div class="method-header">
+                <span class="method-tag patch">PATCH</span>
+                <h2 class="method-title">Update Resource (Partial)</h2>
+            </div>
+            <p class="method-description">
+                PATCH requests are used to partially update existing resources on the server.
+            </p>
+
+            <div class="method-details">
+                <h3>How PATCH Works:</h3>
+                <ul>
+                    <li>Client sends only the fields that need to be updated</li>
+                    <li>Server updates only the specified fields of the resource</li>
+                    <li>PATCH requests are not necessarily idempotent</li>
+                    <li>More efficient than PUT for small updates</li>
+                </ul>
+            </div>
+
+            <div class="form-group">
+                <label for="patchId">Resource ID:</label>
+                <input type="text" id="patchId" placeholder="Enter resource ID">
+            </div>
+            <div class="form-group">
+                <label for="patchData">Update Data (JSON):</label>
+                <textarea id="patchData" placeholder='{"email": "new@example.com"}'></textarea>
+            </div>
+            <button class="btn-patch" onclick="sendPatchRequest()">Send PATCH Request</button>
+
+            <div class="flow-diagram">
+                <div class="flow-step">
+                    <div class="flow-number">1</div>
+                    <div class="flow-text">Browser sends HTTP PATCH request with partial update data</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-number">2</div>
+                    <div class="flow-text">Server receives request and validates data</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-number">3</div>
+                    <div class="flow-text">Server updates only the specified fields of the resource</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-number">4</div>
+                    <div class="flow-text">Server sends back JSON response with updated resource</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-number">5</div>
+                    <div class="flow-text">Browser receives response and updates UI</div>
+                </div>
+            </div>
+
+            <div class="response" id="patchResponse">
+                <div class="response-title">Response:</div>
+                <pre id="patchResponseData">No data yet</pre>
+            </div>
+        </div>
+
+        <!-- DELETE Method -->
+        <div class="method-section">
+            <div class="method-header">
+                <span class="method-tag delete">DELETE</span>
+                <h2 class="method-title">Delete Resource</h2>
+            </div>
+            <p class="method-description">
+                DELETE requests are used to remove resources from the server.
+            </p>
+
+            <div class="method-details">
+                <h3>How DELETE Works:</h3>
+                <ul>
+                    <li>Client sends a request to delete a specific resource</li>
+                    <li>Server removes the resource from the database</li>
+                    <li>DELETE requests are idempotent - multiple identical requests have the same effect</li>
+                    <li>Typically returns a 204 status code (No Content) on success</li>
+                </ul>
+            </div>
+
+            <div class="form-group">
+                <label for="deleteId">Resource ID:</label>
+                <input type="text" id="deleteId" placeholder="Enter resource ID">
+            </div>
+            <button class="btn-delete" onclick="sendDeleteRequest()">Send DELETE Request</button>
+
+            <div class="flow-diagram">
+                <div class="flow-step">
+                    <div class="flow-number">1</div>
+                    <div class="flow-text">Browser sends HTTP DELETE request for specific resource</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-number">2</div>
+                    <div class="flow-text">Server receives request and validates resource exists</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-number">3</div>
+                    <div class="flow-text">Server removes the resource from the database</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-number">4</div>
+                    <div class="flow-text">Server sends back success response (usually 204 No Content)</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-number">5</div>
+                    <div class="flow-text">Browser receives response and updates UI</div>
+                </div>
+            </div>
+
+            <div class="response" id="deleteResponse">
+                <div class="response-title">Response:</div>
+                <pre id="deleteResponseData">No data yet</pre>
+            </div>
+        </div>
+    </div>
+
+    <div class="explanation">
+        <h2>How Frontend-Backend Communication Works</h2>
+        <p>This demo shows how a frontend (HTML/JavaScript) communicates with a backend using HTTP methods. The frontend
+            uses the <code>fetch()</code> API to send HTTP requests to the backend, which processes these requests and
+            returns responses.</p>
+
+        <div class="info-box">
+            <div class="info-title">Key Concepts:</div>
+            <p><strong>API Endpoints:</strong> URLs that the backend exposes for specific operations</p>
+            <p><strong>HTTP Methods:</strong> Verbs that define the type of operation (GET, POST, PUT, PATCH, DELETE)
+            </p>
+            <p><strong>Request Body:</strong> Data sent to the server (for POST, PUT, PATCH requests)</p>
+            <p><strong>Response:</strong> Data returned from the server, typically in JSON format</p>
+            <p><strong>Status Codes:</strong> Numeric codes that indicate the result of the request (200 OK, 201
+                Created, 404 Not Found, etc.)</p>
+        </div>
+
+        <h3>Backend Server Implementation</h3>
+        <p>The backend is built with Node.js and Express.js. It provides RESTful API endpoints for performing CRUD
+            (Create, Read, Update, Delete) operations on users and posts resources.</p>
+
+        <div class="code-block">
+            // Sample backend code for handling GET requests
+            app.get('/api/users/:id?', (req, res) => {
+            const { id } = req.params;
+            if (id) {
+            // Find specific user by ID
+            const user = users.find(u => u.id === parseInt(id));
+            if (!user) return res.status(404).json({ error: 'User not found' });
+            return res.json(user);
+            }
+            // Return all users
+            res.json(users);
+            });
+        </div>
+
+        <h3>CORS (Cross-Origin Resource Sharing)</h3>
+        <p>Since the frontend and backend are on different origins (domains/ports), the backend must include CORS
+            headers to allow the frontend to make requests. This is handled by the <code>cors</code> middleware in
+            Express.</p>
+
+        <h3>Data Flow</h3>
+        <ol>
+            <li>User interacts with the frontend UI (clicks a button, submits a form)</li>
+            <li>JavaScript code creates an HTTP request using the fetch API</li>
+            <li>Request is sent to the backend API endpoint</li>
+            <li>Backend processes the request, interacts with the database if needed</li>
+            <li>Backend sends an HTTP response with data and status code</li>
+            <li>Frontend receives the response and updates the UI accordingly</li>
+        </ol>
+
+        <h3>Error Handling</h3>
+        <p>Both the frontend and backend include error handling. The backend returns appropriate HTTP status codes (4xx
+            for client errors, 5xx for server errors), and the frontend handles these errors to provide user feedback.
+        </p>
+    </div>
+
+    <script>
+       const API_BASE_URL = window.location.origin;
+        let currentResource = 'users';
+        
+        // Check server status on page load
+        window.addEventListener('load', checkServerStatus);
+        
+        // Function to check if the backend server is running
+        async function checkServerStatus() {
+            const statusElement = document.getElementById('serverStatus');
+            try {
+                const response = await fetch(`${API_BASE_URL}/health`);
+                if (response.ok) {
+                    statusElement.textContent = 'Backend server: Online';
+                    statusElement.className = 'server-status status-online';
+                } else {
+                    statusElement.textContent = 'Backend server: Error (check console)';
+                    statusElement.className = 'server-status status-offline';
+                }
+            } catch (error) {
+                statusElement.textContent = 'Backend server: Offline';
+                statusElement.className = 'server-status status-offline';
+                console.error('Server connection error:', error);
+            }
+        }
+
+        // Switch between Users and Posts resources
+        function switchResource(resource) {
+            currentResource = resource;
+
+            // Update UI to show active resource
+            document.getElementById('usersResourceBtn').classList.remove('active');
+            document.getElementById('postsResourceBtn').classList.remove('active');
+            document.getElementById(`${resource}ResourceBtn`).classList.add('active');
+
+            // Show/hide appropriate forms
+            if (resource === 'users') {
+                document.getElementById('usersPostForm').classList.remove('hidden');
+                document.getElementById('postsPostForm').classList.add('hidden');
+                document.getElementById('usersPutForm').classList.remove('hidden');
+                document.getElementById('postsPutForm').classList.add('hidden');
+            } else {
+                document.getElementById('usersPostForm').classList.add('hidden');
+                document.getElementById('postsPostForm').classList.remove('hidden');
+                document.getElementById('usersPutForm').classList.add('hidden');
+                document.getElementById('postsPutForm').classList.remove('hidden');
+            }
+
+            // Clear all response areas
+            clearAllResponses();
+        }
+
+        // Clear all response areas
+        function clearAllResponses() {
+            const responseElements = document.querySelectorAll('.response');
+            responseElements.forEach(el => {
+                el.style.display = 'none';
+                el.classList.remove('error', 'success');
+                el.querySelector('pre').textContent = 'No data yet';
+            });
+        }
+
+        // Helper function to handle responses
+        async function handleResponse(response, responseElementId) {
+            const responseElement = document.getElementById(responseElementId);
+            const preElement = responseElement.querySelector('pre');
+
+            try {
+                // Check if response has content
+                const contentLength = response.headers.get('content-length');
+                if (response.status === 204 || contentLength === '0') {
+                    // No content response (like after DELETE)
+                    responseElement.className = 'response success';
+                    preElement.textContent = 'Success (No content)';
+                    responseElement.style.display = 'block';
+                    return;
+                }
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    responseElement.className = 'response success';
+                    preElement.textContent = JSON.stringify(data, null, 2);
+                } else {
+                    responseElement.className = 'response error';
+                    preElement.textContent = `Error ${response.status}: ${JSON.stringify(data, null, 2)}`;
+                }
+            } catch (error) {
+                responseElement.className = 'response error';
+                preElement.textContent = `Error: ${error.message}`;
+            }
+
+            responseElement.style.display = 'block';
+        }
+
+        // GET request
+        async function sendGetRequest() {
+            const resourceId = document.getElementById('resourceId').value;
+
+            // Use separate endpoints based on whether we have an ID
+            const url = resourceId
+                ? `${API_BASE_URL}/api/${currentResource}/${resourceId}`
+                : `${API_BASE_URL}/api/${currentResource}`;
+
+            try {
+                const response = await fetch(url);
+                await handleResponse(response, 'getResponse');
+            } catch (error) {
+                document.getElementById('getResponse').className = 'response error';
+                document.getElementById('getResponseData').textContent = `Error: ${error.message}`;
+                document.getElementById('getResponse').style.display = 'block';
+            }
+        }
+        // POST request
+        async function sendPostRequest() {
+            let requestBody;
+
+            if (currentResource === 'users') {
+                const name = document.getElementById('postName').value;
+                const email = document.getElementById('postEmail').value;
+
+                if (!name || !email) {
+                    alert('Please fill in all fields');
+                    return;
+                }
+
+                requestBody = { name, email };
+            } else {
+                const title = document.getElementById('postTitle').value;
+                const body = document.getElementById('postBody').value;
+                const userId = document.getElementById('postUserId').value;
+
+                if (!title || !body) {
+                    alert('Please fill in all required fields');
+                    return;
+                }
+
+                requestBody = { title, body, userId: parseInt(userId) };
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/${currentResource}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+
+                await handleResponse(response, 'postResponse');
+            } catch (error) {
+                document.getElementById('postResponse').className = 'response error';
+                document.getElementById('postResponseData').textContent = `Error: ${error.message}`;
+                document.getElementById('postResponse').style.display = 'block';
+            }
+        }
+
+        // PUT request
+        async function sendPutRequest() {
+            const id = document.getElementById('putId').value;
+
+            if (!id) {
+                alert('Please enter a resource ID for PUT request');
+                return;
+            }
+
+            let requestBody;
+
+            if (currentResource === 'users') {
+                const name = document.getElementById('putName').value;
+                const email = document.getElementById('putEmail').value;
+
+                if (!name || !email) {
+                    alert('Please fill in all fields');
+                    return;
+                }
+
+                requestBody = { name, email };
+            } else {
+                const title = document.getElementById('putTitle').value;
+                const body = document.getElementById('putBody').value;
+                const userId = document.getElementById('putUserId').value;
+
+                if (!title || !body) {
+                    alert('Please fill in all required fields');
+                    return;
+                }
+
+                requestBody = { title, body, userId: parseInt(userId) };
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/${currentResource}/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+
+                await handleResponse(response, 'putResponse');
+            } catch (error) {
+                document.getElementById('putResponse').className = 'response error';
+                document.getElementById('putResponseData').textContent = `Error: ${error.message}`;
+                document.getElementById('putResponse').style.display = 'block';
+            }
+        }
+
+        // PATCH request
+        async function sendPatchRequest() {
+            const id = document.getElementById('patchId').value;
+            const patchData = document.getElementById('patchData').value;
+
+            if (!id) {
+                alert('Please enter a resource ID for PATCH request');
+                return;
+            }
+
+            let requestBody;
+
+            try {
+                requestBody = patchData ? JSON.parse(patchData) : {};
+            } catch (error) {
+                alert('Invalid JSON format for patch data');
+                return;
+            }
+
+            if (Object.keys(requestBody).length === 0) {
+                alert('Please provide some data to update');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/${currentResource}/${id}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+
+                await handleResponse(response, 'patchResponse');
+            } catch (error) {
+                document.getElementById('patchResponse').className = 'response error';
+                document.getElementById('patchResponseData').textContent = `Error: ${error.message}`;
+                document.getElementById('patchResponse').style.display = 'block';
+            }
+        }
+
+        // DELETE request
+        async function sendDeleteRequest() {
+            const id = document.getElementById('deleteId').value;
+
+            if (!id) {
+                alert('Please enter a resource ID for DELETE request');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/${currentResource}/${id}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    document.getElementById('deleteResponse').className = 'response success';
+                    document.getElementById('deleteResponseData').textContent = 'Resource deleted successfully';
+                } else {
+                    await handleResponse(response, 'deleteResponse');
+                }
+
+                document.getElementById('deleteResponse').style.display = 'block';
+            } catch (error) {
+                document.getElementById('deleteResponse').className = 'response error';
+                document.getElementById('deleteResponseData').textContent = `Error: ${error.message}`;
+                document.getElementById('deleteResponse').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+
+</html>
